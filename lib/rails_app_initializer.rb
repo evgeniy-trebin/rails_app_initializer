@@ -1,5 +1,4 @@
 require 'rails_app_initializer/version'
-require 'rails'
 
 load "#{File.dirname(__FILE__)}/tasks/init.rake"
 
