@@ -1,3 +1,3 @@
-module RailsAppInitializer
-  VERSION = '0.1.1'
+class RailsAppInitializer
+  VERSION = '0.0.0.1'
 end
