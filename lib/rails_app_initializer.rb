@@ -7,7 +7,10 @@ class RailsAppInitializer
 
   class Config
 
-    attr_accessor :app_name, :use_turbolinks, :email
+    DEFAULT_APP_NAME = 'YourAppName'
+    DEFAULT_EMAIL = 'mail@example.com'
+
+    attr_accessor :app_name, :use_turbolinks, :email, :db_username, :db_password
 
     def initialize
       set_defaults
@@ -15,9 +18,11 @@ class RailsAppInitializer
     end
 
     def set_defaults
-      @app_name = 'YourAppName'
-      @email = 'mail@example.com'
+      @app_name = DEFAULT_APP_NAME
+      @email = DEFAULT_EMAIL
       @use_turbolinks = false
+      @db_username = 'postgres'
+      @db_password = 'resolve'
     end
   end
 
