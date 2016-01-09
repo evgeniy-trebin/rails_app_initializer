@@ -2,31 +2,23 @@ require 'rubygems'
 require 'rake'
 require 'fileutils'
 
+dirname = "#{File.dirname(__FILE__).split('/')[0..-2].join('/')}/rails_app_initializer"
+require "#{dirname}/modules/common.rb"
+require "#{dirname}/classes/config_file_manager.rb"
+
 namespace :rails_app_initializer do
 
   desc 'It makes configuration file'
   task :install => :environment do
-    File.open(config_file_path, 'w') do |f|
-      f.write <<-CONTENT
-RailsAppInitializer.configure do |config|
-  #TODO you should change app_name and email
-  config.app_name = 'YourAppName'
-  config.email = 'mail@example.com'
-
-  config.use_turbolinks = false
-
-  config.db_username = 'postgres'
-  config.db_password = 'resolve'
-end
-      CONTENT
-    end
+    RAI::ConfigFileManager.new.create_config_file
   end
 
   desc 'It configures application'
   task :configure do
-    next unless config_file_exist?
-    require(config_file_path)
-    next unless config_data_was_reset?
+    config_file_manager = RAI::ConfigFileManager.new
+    next if config_file_manager.config_file_is_missing?
+    require(config_file_manager.config_file_path)
+    next if config_file_manager.config_data_was_not_reset?
     update_gemfile
     update_database_yml
     update_environments
@@ -37,21 +29,6 @@ end
 
   def config
     RailsAppInitializer.config
-  end
-
-  def config_file_exist?
-    p 'ERROR! Please run rake rails_app_initializer:install before rails_app_initializer:configure' and return false unless File.exist?(config_file_path)
-    true
-  end
-
-  def config_file_path
-    Rails.root.join('rails_app_initializer_config.rb')
-  end
-
-  def config_data_was_reset?
-    p 'ERROR! Please change configuration data in rails_app_initializer_config.rb on your own' and
-        return false if config.app_name == RailsAppInitializer::Config::DEFAULT_APP_NAME || config.email == RailsAppInitializer::Config::DEFAULT_EMAIL
-    true
   end
 
   def update_gemfile
