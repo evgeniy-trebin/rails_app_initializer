@@ -1,12 +1,17 @@
 module RAI
   module Common
     def self.included(klass)
+
+      def version
+        ::RailsAppInitializer::VERSION
+      end
+
       def config
         ::RailsAppInitializer.config
       end
 
       def config_file_path
-        Rails.root.join('rails_app_initializer_config.rb')
+        default_path('rails_app_initializer_config.rb')
       end
 
       def config_file_exist?
@@ -24,6 +29,23 @@ module RAI
       def default_email
         ::RailsAppInitializer::Config::DEFAULT_EMAIL
       end
+
+      def gemfile_path
+        default_path('Gemfile')
+      end
+
+      def use_turbolinks?
+        config.use_turbolinks
+      end
+
+      def database_yml_path
+        default_path('config/database.yml')
+      end
+
+      def default_path(filename)
+        Rails.root.join(filename)
+      end
+
     end
   end
 end
