@@ -54,9 +54,24 @@ module RAI
       def update_file_with_content(relative_path, content, removable_relative_path=nil)
         if removable_relative_path.present?
           file = default_path(removable_relative_path)
-          File.delete(file) if File.exist?(file)
+          File.delete(file) && log("File '#{removable_relative_path}' was deleted") if File.exist?(file)
         end
-        File.open(default_path(relative_path), 'w') { |f| f.write content }
+        File.open(default_path(relative_path), 'w') { |f| f.write(content) && log("File '#{relative_path}'  was updated") }
+      end
+
+      def create_directory(relative_path)
+        require 'fileutils'
+        path = default_path(relative_path)
+        FileUtils.mkdir_p(path) && log("Directory '#{path}' was created")
+      end
+
+      def show_messages?
+        config.show_messages
+      end
+
+      def log(message)
+        p message if show_messages?
+        true
       end
 
     end
