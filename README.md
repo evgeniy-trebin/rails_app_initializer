@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Run `rake rails_app_initializer:install`. It creates rails_app_initializer_config.rb in your project root directory.
+Open rails_app_initializer_config.rb and change configuration parameters on your own.
+Run `rake rails_app_initializer:configure`
 
 ## Development
 
