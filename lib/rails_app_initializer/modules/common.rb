@@ -51,6 +51,14 @@ module RAI
         SecureRandom.hex(64)
       end
 
+      def update_file_with_content(relative_path, content, removable_relative_path=nil)
+        if removable_relative_path.present?
+          file = default_path(removable_relative_path)
+          File.delete(file) if File.exist?(file)
+        end
+        File.open(default_path(relative_path), 'w') { |f| f.write content }
+      end
+
     end
   end
 end
