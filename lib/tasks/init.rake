@@ -51,11 +51,6 @@ namespace :rails_app_initializer do
     RAI::EnvironmentsManager.new.update_environments
   end
 
-  def generate_secret_key
-    require 'securerandom'
-    SecureRandom.hex(64)
-  end
-
   def update_application_files
     update_application_view
     update_application_css

@@ -46,6 +46,11 @@ module RAI
         Rails.root.join(filename)
       end
 
+      def generate_secret_key
+        require 'securerandom'
+        SecureRandom.hex(64)
+      end
+
     end
   end
 end
